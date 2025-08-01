@@ -26,7 +26,7 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
-async def run_bot():
+async def main():
     application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
@@ -36,15 +36,11 @@ async def run_bot():
             listen="0.0.0.0",
             port=PORT,
             url_path=BOT_TOKEN,
-            webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}"
+            webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}",
+            drop_pending_updates=True
         )
     else:
-        await application.run_polling()
-
-
-def main():
-    asyncio.run(run_bot())
-
+        application.run_polling()
 
 if __name__ == '__main__':
     main()
