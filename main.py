@@ -3,6 +3,7 @@ from telegram.ext import Application, MessageHandler, filters, ContextTypes
 import os
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+PORT = int(os.environ.get('PORT', 10000))
 
 
 async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -32,7 +33,15 @@ async def main():
 
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
 
-    await application.run_polling()
+    if 'RENDER' in os.environ:
+        application.run_webhook(
+            listen="0.0.0.0",
+            port=PORT,
+            url_path=BOT_TOKEN,
+            webhook_url=f"https://fighterbot.onrender.com/{BOT_TOKEN}"
+        )
+    else:
+        await application.run_polling()
 
 
 if __name__ == '__main__':
