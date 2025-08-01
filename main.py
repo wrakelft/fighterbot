@@ -40,7 +40,7 @@ async def main():
             drop_pending_updates=True
         )
     else:
-        application.run_polling()
+        await application.run_polling()
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
