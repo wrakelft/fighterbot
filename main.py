@@ -1,3 +1,5 @@
+import asyncio
+
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 import os
@@ -24,7 +26,7 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
-async def main():
+async def run_bot():
     application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
@@ -37,7 +39,11 @@ async def main():
             webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}"
         )
     else:
-        application.run_polling()
+        await application.run_polling()
+
+
+def main():
+    asyncio.run(run_bot())
 
 
 if __name__ == '__main__':
