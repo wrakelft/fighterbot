@@ -47,9 +47,8 @@ async def run_bot():
 def main():
     try:
         loop = asyncio.get_running_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+    except Exception as e:
+        print(e)
 
     if 'RENDER' in os.environ:
         loop.create_task(run_bot())
