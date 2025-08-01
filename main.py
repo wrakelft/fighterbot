@@ -44,8 +44,19 @@ async def run_bot():
         await application.run_polling(drop_pending_updates=True)
 
 
-if __name__ == '__main__':
+def main():
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
     if 'RENDER' in os.environ:
-        asyncio.ensure_future(run_bot())
+        loop.create_task(run_bot())
+        loop.run_forever()
     else:
-        asyncio.run(run_bot())
+        loop.run_until_complete(run_bot())
+
+
+if __name__ == '__main__':
+    main()
