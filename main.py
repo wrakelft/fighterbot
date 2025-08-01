@@ -37,20 +37,15 @@ async def run_bot():
             port=PORT,
             url_path=BOT_TOKEN,
             webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}",
-            drop_pending_updates=True
+            drop_pending_updates=True,
+            close_loop=False
         )
     else:
         await application.run_polling(drop_pending_updates=True)
 
 
-def main():
-    loop = asyncio.get_event_loop()
-    if loop.is_running():
-        task = loop.create_task(run_bot())
-        loop.run_until_complete(task)
-    else:
-        loop.run_until_complete(run_bot())
-
-
 if __name__ == '__main__':
-    main()
+    if 'RENDER' in os.environ:
+        asyncio.ensure_future(run_bot())
+    else:
+        asyncio.run(run_bot())
