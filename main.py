@@ -45,15 +45,10 @@ async def run_bot():
 
 
 def main():
-    try:
-        loop = asyncio.get_event_loop()
-        if 'RENDER' in os.environ:
-            loop.create_task(run_bot())
-            loop.run_forever()
-        else:
-            loop.run_until_complete(run_bot())
-    except Exception as e:
-        print(e)
+    if 'RENDER' in os.environ:
+        asyncio.create_task(run_bot())
+    else:
+        asyncio.run(run_bot())
 
 
 if __name__ == '__main__':
