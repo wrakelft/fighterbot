@@ -1,8 +1,9 @@
 import asyncio
+import os
+import nest_asyncio
 
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
-import os
 
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -23,7 +24,7 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         await update.message.reply_text(
             text=welcome_message,
-            parse_mode="HTML"  # Для поддержки эмодзи и форматирования
+            parse_mode="HTML"
         )
 
 
@@ -45,10 +46,11 @@ async def run_bot():
 
 
 def main():
-    if 'RENDER' in os.environ:
-        asyncio.create_task(run_bot())
-    else:
+    try:
+        nest_asyncio.apply()
         asyncio.run(run_bot())
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':
