@@ -5,7 +5,6 @@ from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 import os
 
-nest_asyncio.apply()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 PORT = int(os.environ.get('PORT', 10000))
@@ -31,7 +30,6 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def run_bot():
     application = Application.builder().token(BOT_TOKEN).build()
-
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
 
     if 'RENDER' in os.environ:
@@ -46,10 +44,5 @@ async def run_bot():
         await application.run_polling()
 
 
-async def main():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run_bot())
-
-
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(run_bot())
