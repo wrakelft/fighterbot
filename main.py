@@ -1,6 +1,5 @@
 import asyncio
 
-import nest_asyncio
 from telegram import Update
 from telegram.ext import Application, MessageHandler, filters, ContextTypes
 import os
