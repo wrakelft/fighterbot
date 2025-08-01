@@ -24,26 +24,21 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
-import nest_asyncio
-nest_asyncio.apply()
-
-
 async def main():
     application = Application.builder().token(BOT_TOKEN).build()
 
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
 
     if 'RENDER' in os.environ:
-        await application.run_webhook(
+        application.run_webhook(
             listen="0.0.0.0",
             port=PORT,
             url_path=BOT_TOKEN,
             webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}"
         )
     else:
-        await application.run_polling()
+        application.run_polling()
 
 
 if __name__ == '__main__':
-    import asyncio
-    asyncio.run(main())
+    main()
