@@ -34,11 +34,11 @@ async def main():
     application.add_handler(MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, welcome))
 
     if 'RENDER' in os.environ:
-        application.run_webhook(
+        await application.run_webhook(
             listen="0.0.0.0",
             port=PORT,
             url_path=BOT_TOKEN,
-            webhook_url=f"https://fighterbot.onrender.com/{BOT_TOKEN}"
+            webhook_url=f"https://fighterbot-4ts2.onrender.com/{BOT_TOKEN}"
         )
     else:
         await application.run_polling()
