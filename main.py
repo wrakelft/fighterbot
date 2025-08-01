@@ -40,8 +40,17 @@ async def run_bot():
             drop_pending_updates=True
         )
     else:
-        await application.run_polling()
+        await application.run_polling(drop_pending_updates=True)
+
+
+def main():
+    loop = asyncio.get_event_loop()
+    if loop.is_running():
+        task = loop.create_task(run_bot())
+        loop.run_until_complete(task)
+    else:
+        loop.run_until_complete(run_bot())
 
 
 if __name__ == '__main__':
-    asyncio.run(run_bot())
+    main()
